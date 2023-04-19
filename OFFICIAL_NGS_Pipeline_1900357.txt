@@ -1,0 +1,37 @@
+  GNU nano 4.8                                                      NGS_Pipeline_1900357.sh                                                       Modifiedecho for NGS0001.R1.fastq.qz in 1fastqc/*.zip; do echo NGS0001.R1.fastq.qz_fastqc.zip; unzip NGS0001.R1.fastq.qz; done
+echo for NGS0001.R2.fastq.qz in 1fastqc/*.zip; do echo NGS0001.R1.fastq.qz_fastqc.zip; unzip NGS0001.R1.fastq.qz; done
+echo sh fastqc.sh
+echo mkdir 2trimming
+echo cd 2trimming
+echo  $ java -jar ~/local/software/Trimmomatic-0.39/trimmomatic-0.39.jar PE NGS0001.R1.fastq NGS0001.R2.fastq paired.output NGS0001.R1.fastq.qz unpaired ou>
+echo cd ../
+echo mkdir 3fastqc
+echo ls *.qz
+echo fastqc *qz -o 3fastqc/
+echo for NGS0001.R1.fastq.qz in 3fastqc/*.zip; do echo NGS0001.R1.fastq.qz_fastqc.zip; unzip NGS0001.R1.fastq.qz; done
+echo for NGS0001.R2.fastq.qz in 1fastqc/*.zip; do echo NGS0001.R1.fastq.qz_fastqc.zip; unzip NGS0001.R1.fastq.qz; done
+echo sh 3fastqc.sh
+echo cd ../
+echo mkdir 4bwa_mem_alignment
+echo conda install -c bioconda bwa-mem2
+echo bwa index [-a bwtsw|is] hg38.fasta index_prefix [input_unpaired_reads_NGS0001.R1.fastq input_unpaired_reads_NGS0001.R2.fastq|input_reads_paired_NGS000>
+echo bedtools intersect -a annotation.bed
+echo freebayes -f hg38.fa NGS0001.R1.bam >var.vcf
+echo freebayes -f hg38.fa NGS0001.R2.bam >var.vcf
+echo cd ../
+echo mkdir 5variantannotation
+echo cp -r $/ref_genome/annovar/hg19_annovar_db.
+echo ls *.vcf | \
+  perl -n -e 'chomp; $_=~/(NA\d+).*(sam|GATK)/; print "annovarPipe.sh $_ hg19_annovar_db >$1.$2.log 2>&1 \n";' > annovar_commands
+echo cp /corral-repl/5variant_annotation.launcher.slurm annovar.slurm
+echo nano annovar.slurm
+echo sbatch annovar.slrum
+echo cd ../
+echo mkdir 6SNPEFF
+echo wget https://snpeff.blob.core.windows.net/versions/snpEff_latest_core.zip
+echo unzip snpEff_latest_core.zip
+echo java -Xmx8g -jar snpEff.jar GRCh37.75 NGS0001.R1.vcf > NGS0001.R1.ann.vcf
+echo java -Xmx8g -jar snpEff.jar GRCh37.75 NGS0001.R2.vcf > NGS0001.R2.ann.vcf
+                                                                  [ Unbindable key: M-^S ]
+^G Get Help      ^O Write Out     ^W Where Is      ^K Cut Text      ^J Justify       ^C Cur Pos       M-U Undo         M-A Mark Text    M-] To Bracket
+^X Exit          ^R Read File     ^\ Replace       ^U Paste Text    ^T To Spell      ^_ Go To Line    M-E Redo         M-6 Copy Text    ^Q Where Was
